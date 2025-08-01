@@ -1,0 +1,21 @@
+{
+  "name": "web-ui-automation",
+  "version": "1.0.0",
+  "description": "Selenium WebDriver based UI automation framework for web applications using Mocha with Mochawesome Report.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test --recursive --timeout 60000 --reporter mochawesome"
+  },
+  "keywords": [],
+  "author": "SeptioMS",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "selenium-webdriver": "^4.34.0"
+  },
+  "devDependencies": {
+    "mocha": "^11.7.1",
+    "mocha-simple-html-reporter": "^2.0.0",
+    "mochawesome": "^7.1.3"
+  }
+}
