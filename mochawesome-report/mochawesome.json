@@ -1,14 +1,14 @@
 {
   "stats": {
     "suites": 1,
-    "tests": 1,
-    "passes": 1,
+    "tests": 2,
+    "passes": 2,
     "pending": 0,
     "failures": 0,
-    "start": "2025-08-01T16:33:44.151Z",
-    "end": "2025-08-01T16:33:53.971Z",
-    "duration": 9820,
-    "testsRegistered": 1,
+    "start": "2025-08-03T04:36:07.585Z",
+    "end": "2025-08-03T04:36:17.247Z",
+    "duration": 9662,
+    "testsRegistered": 2,
     "passPercent": 100,
     "pendingPercent": 0,
     "other": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "e87a90c0-fcd5-41cb-a9c1-130e63d2ee74",
+      "uuid": "fcb9512f-0abd-404c-9cf5-0d7d28e704b7",
       "title": "",
       "fullFile": "C:\\Users\\trian\\Downloads\\QA Engineer\\SESI 9\\web-ui-automation\\test\\testSauce.js",
       "file": "\\test\\testSauce.js",
@@ -27,43 +27,100 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "32f1e741-0035-4b1e-95f0-b37892d11e5e",
-          "title": "SauceDemo Login Test and sort product from a-z",
+          "uuid": "57997807-12cf-40e6-bc47-35132730d61f",
+          "title": "SauceDemo automation test",
           "fullFile": "C:\\Users\\trian\\Downloads\\QA Engineer\\SESI 9\\web-ui-automation\\test\\testSauce.js",
           "file": "\\test\\testSauce.js",
-          "beforeHooks": [],
-          "afterHooks": [],
+          "beforeHooks": [
+            {
+              "title": "\"before each\" hook in \"SauceDemo automation test\"",
+              "fullTitle": "SauceDemo automation test \"before each\" hook in \"SauceDemo automation test\"",
+              "timedOut": false,
+              "duration": 2720,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "let options = new chrome.Options();\noptions.addArguments('--incognito');\ndriver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();\nawait driver.get('https://www.saucedemo.com/');\nawait driver.findElement(By.id('user-name')).sendKeys('standard_user');\nawait driver.findElement(By.id('password')).sendKeys('secret_sauce');\nawait driver.findElement(By.id('login-button')).click();\nawait driver.wait(until.urlContains('inventory'), 5000);",
+              "err": {},
+              "uuid": "f44ae52c-64e0-4136-ae50-4f41035e7f8a",
+              "parentUUID": "57997807-12cf-40e6-bc47-35132730d61f",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after each\" hook in \"SauceDemo automation test\"",
+              "fullTitle": "SauceDemo automation test \"after each\" hook in \"SauceDemo automation test\"",
+              "timedOut": false,
+              "duration": 249,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await driver.quit();",
+              "err": {},
+              "uuid": "1884562c-4a20-438e-9b44-c4e1de55a1b0",
+              "parentUUID": "57997807-12cf-40e6-bc47-35132730d61f",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
           "tests": [
             {
-              "title": "should login success and sort product from a-z ",
-              "fullTitle": "SauceDemo Login Test and sort product from a-z should login success and sort product from a-z ",
+              "title": "should login success",
+              "fullTitle": "SauceDemo automation test should login success",
               "timedOut": false,
-              "duration": 9802,
+              "duration": 106,
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
-              "code": "// Membuat opsi Chrome agar berjalan di mode incognito\nlet options = new chrome.Options();\noptions.addArguments('--incognito');\n// Membuat instance baru dari browser Chrome dengan mode incognito\nlet driver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();\ntry {\n    // Membuka halaman login saucedemo.com\n    await driver.get('https://www.saucedemo.com/');\n    // Menemukan input username dan mengisi dengan username standar\n    await driver.findElement(By.id('user-name')).sendKeys('standard_user');\n    // Menemukan input password dan mengisi dengan password standar\n    await driver.findElement(By.id('password')).sendKeys('secret_sauce');\n    // Menemukan tombol login dan mengkliknya\n    await driver.findElement(By.id('login-button')).click();\n    // Menunggu hingga halaman produk muncul (indikator: url berubah)\n    await driver.wait(until.urlContains('inventory'), 5000);\n    // Memastikan login berhasil dengan mengecek keberadaan elemen produk\n    let productTitle = await driver.findElement(By.className('title')).getText();\n    assert.strictEqual(productTitle, 'Products');\n     // Pilih sorting dari A ke Z\n    let sortDropdown = await driver.findElement(By.className('product_sort_container'));\n    await sortDropdown.sendKeys('Name (A to Z)');\n    // Ambil semua nama produk setelah sorting\n    let productElements = await driver.findElements(By.className('inventory_item_name'));\n    let productNames = [];\n    for (let el of productElements) {\n        productNames.push(await el.getText());\n    }\n    // // Cek apakah produk sudah terurut dari A ke Z\n    // let sortedNames = [...productNames].sort();\n    // assert.deepStrictEqual(productNames, sortedNames);\n    await driver.sleep(5000)\n    console.log('Login sukses!');\n} catch (error) {\n    console.error('Test gagal:', error);\n} finally {\n    // Menutup browser setelah test selesai\n    await driver.quit();\n}",
+              "code": "let productTitle = await driver.findElement(By.className('title')).getText();\nassert.strictEqual(productTitle, 'Products');",
               "err": {},
-              "uuid": "d6e59f4e-703e-46dd-8968-97c338827723",
-              "parentUUID": "32f1e741-0035-4b1e-95f0-b37892d11e5e",
+              "uuid": "d3f1cffa-847a-44db-bf15-b1e55ff04f8b",
+              "parentUUID": "57997807-12cf-40e6-bc47-35132730d61f",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should sort products from A to Z",
+              "fullTitle": "SauceDemo automation test should sort products from A to Z",
+              "timedOut": false,
+              "duration": 1382,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Pilih sorting \"Name (A to Z)\"\nlet sortDropdown = await driver.findElement(By.className('product_sort_container'));\nawait sortDropdown.click();\nawait sortDropdown.findElement(By.css('option[value=\"az\"]')).click();\n// Ambil semua nama produk setelah sorting\nawait driver.sleep(1000); // Tunggu sebentar agar sorting selesai\nlet productElements = await driver.findElements(By.className('inventory_item_name'));\nlet productNames = [];\nfor (let el of productElements) {\n    productNames.push(await el.getText());\n}\n// Buat salinan dan sort ascending\nlet sortedNames = [...productNames].sort((a, b) => a.localeCompare(b));\n// Pastikan urutan produk sudah sesuai A-Z\nassert.deepStrictEqual(productNames, sortedNames);",
+              "err": {},
+              "uuid": "00fe6fba-d371-420d-84fc-2334b8b67db3",
+              "parentUUID": "57997807-12cf-40e6-bc47-35132730d61f",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "d6e59f4e-703e-46dd-8968-97c338827723"
+            "d3f1cffa-847a-44db-bf15-b1e55ff04f8b",
+            "00fe6fba-d371-420d-84fc-2334b8b67db3"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 9802,
+          "duration": 1488,
           "root": false,
           "rootEmpty": false,
-          "_timeout": 60000
+          "_timeout": 20000
         }
       ],
       "passes": [],
