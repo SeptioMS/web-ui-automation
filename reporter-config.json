@@ -1,0 +1,10 @@
+{
+  "reporterEnabled": "mochawesome, mocha-simple-html-reporter",
+  "mochawesomeReporterOptions": {
+    "reportDir": "mochawesome-report",
+    "reportFilename": "mochawesome"
+  },
+  "mochaSimpleHtmlReporterReporterOptions": {
+    "output": "report.html"
+  }
+}

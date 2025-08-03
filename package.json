@@ -1,10 +1,10 @@
 {
   "name": "web-ui-automation",
   "version": "1.0.0",
-  "description": "Selenium WebDriver based UI automation framework for web applications using Mocha with Mochawesome Report.",
-  "main": "index.js",
+  "description": "Selenium WebDriver based UI automation framework for web applications using Mocha with Mochawesome Report. Uses a custom reporter configuration file (reporter-config.json) for multi-reporter setup.",
+  "main": "test/testSauce.js",
   "scripts": {
-    "test": "mocha test --recursive --timeout 60000 --reporter mochawesome"
+    "test": "mocha --recursive --timeout 60000 --reporter mocha-multi-reporters --reporter-options configFile=reporter-config.json"
   },
   "keywords": [],
   "author": "SeptioMS",
@@ -16,6 +16,7 @@
   "devDependencies": {
     "mocha": "^11.7.1",
     "mocha-simple-html-reporter": "^2.0.0",
-    "mochawesome": "^7.1.3"
+    "mochawesome": "^7.1.3",
+    "mocha-multi-reporters": "^1.5.1"
   }
 }
