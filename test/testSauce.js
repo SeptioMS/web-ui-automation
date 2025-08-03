@@ -1,57 +1,50 @@
 const { Builder, By, until } = require('selenium-webdriver');
-const chrome = require('selenium-webdriver/chrome'); // Tambahkan ini untuk opsi Chrome
+const chrome = require('selenium-webdriver/chrome');
 const assert = require('assert');
 
-describe('SauceDemo Login Test and sort product from a-z', function () {
-it('should login success and sort product from a-z ', async function () {
-    // Membuat opsi Chrome agar berjalan di mode incognito
-    let options = new chrome.Options();
-    options.addArguments('--incognito');
+describe('SauceDemo automation test', function () {
+    this.timeout(20000); // Tambahkan timeout agar cukup waktu untuk eksekusi
 
-    // Membuat instance baru dari browser Chrome dengan mode incognito
-    let driver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();
+    let driver;
 
-    try {
-        // Membuka halaman login saucedemo.com
+    beforeEach(async function () {
+        let options = new chrome.Options();
+        options.addArguments('--incognito');
+        driver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();
         await driver.get('https://www.saucedemo.com/');
-
-        // Menemukan input username dan mengisi dengan username standar
         await driver.findElement(By.id('user-name')).sendKeys('standard_user');
-
-        // Menemukan input password dan mengisi dengan password standar
         await driver.findElement(By.id('password')).sendKeys('secret_sauce');
-
-        // Menemukan tombol login dan mengkliknya
         await driver.findElement(By.id('login-button')).click();
-
-        // Menunggu hingga halaman produk muncul (indikator: url berubah)
         await driver.wait(until.urlContains('inventory'), 5000);
+    });
 
-        // Memastikan login berhasil dengan mengecek keberadaan elemen produk
+    afterEach(async function () {
+        await driver.quit();
+    });
+
+    it('should login success', async function () {
         let productTitle = await driver.findElement(By.className('title')).getText();
         assert.strictEqual(productTitle, 'Products');
-         // Pilih sorting dari A ke Z
+    });
+
+    it('should sort products from A to Z', async function () {
+        // Pilih sorting "Name (A to Z)"
         let sortDropdown = await driver.findElement(By.className('product_sort_container'));
-        await sortDropdown.sendKeys('Name (A to Z)');
+        await sortDropdown.click();
+        await sortDropdown.findElement(By.css('option[value="az"]')).click();
 
         // Ambil semua nama produk setelah sorting
+        await driver.sleep(1000); // Tunggu sebentar agar sorting selesai
         let productElements = await driver.findElements(By.className('inventory_item_name'));
         let productNames = [];
         for (let el of productElements) {
             productNames.push(await el.getText());
         }
 
-        // // Cek apakah produk sudah terurut dari A ke Z
-        // let sortedNames = [...productNames].sort();
-        // assert.deepStrictEqual(productNames, sortedNames);
+        // Buat salinan dan sort ascending
+        let sortedNames = [...productNames].sort((a, b) => a.localeCompare(b));
 
-        await driver.sleep(5000)
-        console.log('Login sukses!');
-    } catch (error) {
-        console.error('Test gagal:', error);
-    } finally {
-        // Menutup browser setelah test selesai
-        await driver.quit();
-    }
-
-})});
+        // Pastikan urutan produk sudah sesuai A-Z
+        assert.deepStrictEqual(productNames, sortedNames);
+    });
+});
